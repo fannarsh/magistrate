@@ -1,0 +1,25 @@
+{
+  "name": "magistrate",
+  "version": "0.0.0",
+  "description": "Administrates configuration gathered from Consul",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fannarsh/magistrate.git"
+  },
+  "keywords": [
+    "consul",
+    "config",
+    "configuration",
+    "cluster"
+  ],
+  "author": "Fannar Snær <fannar@lambagras.is>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fannarsh/magistrate/issues"
+  },
+  "homepage": "https://github.com/fannarsh/magistrate#readme"
+}
