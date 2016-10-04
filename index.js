@@ -69,6 +69,7 @@ Magistrate.prototype.settings = function settings (err, data) {
     return console.log({ error: err }, 'Error reciving cluster settings');
   }
   this._cluster_settings = data;
+  if (process.env.CLUSTER_SIZE) this._cluster_settings.size = Number(process.env.CLUSTER_SIZE);
   this._cluster_settings_populated = true;
   this._emitChange();
   return this._cluster_settings;
