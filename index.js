@@ -43,7 +43,7 @@ Magistrate.prototype.setConfiguration = function setConfiguration () {
     if (!exec) throw new Error('An executable is missing! Set env variable EXEC or CONSUL');
     this._service_config_populated = true;
 
-    if (this._base_config.services && this._base_config.services.length) {
+    if (this._base_config.services && this._base_config.services.length && !fullfilledServices(this._base_config)) {
       console.log('[magistrate] No consul, no service discovery, missing services:', this._base_config.services);
       // todo : better handling of missing services, (fallback to local_config).
       this._services_populated = false;
