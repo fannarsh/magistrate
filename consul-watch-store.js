@@ -9,15 +9,12 @@ module.exports = function consulWatchStore (prefix, cb) {
     options: { key: prefix, recurse: true }
   });
 
-  watcher.on('error', function (err) {
-    console.log('consul watch store error:', err);
-    cb(err);
-  });
+  watcher.on('error', cb);
   watcher.on('change', function (data, res) {
     if (!data) {
       var error = new Error('Missing directory/path: ' + prefix + ' in kv store');
       error.path = prefix;
-      error.fatal = true;
+      error.clean_exit = true;
       return cb(error);
     }
     cb(null, transform(prefix, data));

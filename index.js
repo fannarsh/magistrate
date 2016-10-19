@@ -65,8 +65,11 @@ function kvPrefix (name, config) {
 
 Magistrate.prototype.settings = function settings (err, data) {
   if (err) {
-    if (err.fatal) throw err;
-    return console.log({ error: err }, 'Error reciving cluster settings');
+    if (err.clean_exit) {
+      console.log({ error: err }, 'Error receiving cluster settings');
+      return process.exit(0);
+    }
+    throw err;
   }
   this._cluster_settings = data;
   if (process.env.CLUSTER_SIZE) this._cluster_settings.size = Number(process.env.CLUSTER_SIZE);
@@ -77,8 +80,11 @@ Magistrate.prototype.settings = function settings (err, data) {
 
 Magistrate.prototype.config = function config (err, data) {
   if (err) {
-    if (err.fatal) throw err;
-    return console.log({ error: err }, 'Error reciving service config');
+    if (err.clean_exit) {
+      console.log({ error: err }, 'Error receiving service config');
+      return process.exit(0);
+    }
+    throw err;
   }
   this._service_config = xtend(this._base_config, data);
   // This is the only time we add tags from kv store, there is no special handling when tags appears via watching

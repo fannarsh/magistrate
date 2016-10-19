@@ -8,10 +8,7 @@ module.exports = function consulWatchServices (cb) {
     options: {}
   });
 
-  watcher.on('error', function (err) {
-    console.log('error:', err);
-    cb(err);
-  });
+  watcher.on('error', cb);
   watcher.on('change', function (data, res) {
     cb(null, data);
   });
