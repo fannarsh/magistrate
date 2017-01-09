@@ -4,7 +4,7 @@
   "description": "Administrates configuration gathered from Consul",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "semistandard"
   },
   "repository": {
     "type": "git",
@@ -27,5 +27,8 @@
     "fastparallel": "^2.3.0",
     "internal-ip": "^1.2.0",
     "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "semistandard": "*"
   }
 }
