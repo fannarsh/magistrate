@@ -11,7 +11,7 @@ var parallel = fastparallel();
 var servicesCmprStr = '[]';
 
 module.exports = function consulServices (config, cb) {
-  if (!config.services || !config.services.length) return cb(null, {});
+  if (!expectedServices(config).length) return cb(null, {});
   cws(function (err, data) {
     if (err) return cb(err);
 
@@ -23,7 +23,7 @@ module.exports = function consulServices (config, cb) {
 };
 
 function iterateServices (config, cb) {
-  var services = config.services;
+  var services = expectedServices(config);
   var environment = config.environment;
   parallel({}, fetchService, services, cb);
 
@@ -81,4 +81,10 @@ function hasChanged (services) {
   var newCmpr = JSON.stringify(services);
   // console.log(servicesCmprStr + '\n' + newCmpr);
   return servicesCmprStr !== newCmpr;
+}
+
+function expectedServices (config) {
+  var hard = config.services || [];
+  var lose = config.lose_services || [];
+  return hard.concat(lose);
 }

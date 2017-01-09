@@ -1,5 +1,7 @@
 'use strict';
 
+// Checks if all the hard dependency services are avilable
+
 module.exports = function fullfilledServices (config) {
   if (!config.services || !config.services.length) return true;
   var exist = 0;
@@ -10,6 +12,6 @@ module.exports = function fullfilledServices (config) {
   console.log({
     expected: config.services,
     config: config
-  }, 'Missing hard service dependency.');
+  }, '[magistrate] Missing hard service dependency.');
   return false;
 };
