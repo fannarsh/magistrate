@@ -10,6 +10,7 @@ var cserv = require('./consul-services.js');
 var prepareTags = require('./prepare-tags.js');
 var fullfilledServices = require('./fullfilled-services.js');
 var fullfilledLoseServices = require('./fullfilled-lose-services.js');
+var hasServicesChanged = require('./has-services-changed.js');
 
 var consulRegister = require('./consul-register.js');
 
@@ -75,7 +76,7 @@ Magistrate.prototype.settings = function settings (err, data) {
   this._cluster_settings = data;
   if (process.env.CLUSTER_SIZE) this._cluster_settings.size = Number(process.env.CLUSTER_SIZE);
   this._cluster_settings_populated = true;
-  this._emitChange();
+  this._emitChange(true);
   return this._cluster_settings;
 };
 
@@ -94,7 +95,7 @@ Magistrate.prototype.config = function config (err, data) {
   this._combined_config.fullfilled_services = fullfilledServices(this._combined_config);
   this._combined_config.fullfilled_lose_services = fullfilledLoseServices(this._combined_config);
   this._service_config_populated = true;
-  this._emitChange();
+  this._emitChange(true);
   return this._combined_config;
 };
 
@@ -103,12 +104,13 @@ Magistrate.prototype.services = function services (err, data) {
   if (errorHandler(err, function () {
     this.services(null, []);
   }.bind(this))) return;
+  var restart = hasServicesChanged(this._combined_config, this._services, data);
   this._services = data;
   this._combined_config = xtend(this._service_config, this._services);
   this._combined_config.fullfilled_services = fullfilledServices(this._combined_config);
   this._combined_config.fullfilled_lose_services = fullfilledLoseServices(this._combined_config);
   this._services_populated = this._services_populated || this._combined_config.fullfilled_services;
-  this._emitChange();
+  this._emitChange(restart);
   return this._combined_config;
 };
 
@@ -116,10 +118,10 @@ Magistrate.prototype.getConfig = function getConfig () {
   return JSON.parse(JSON.stringify(this._combined_config));
 };
 
-Magistrate.prototype._emitChange = function _emitChange () {
+Magistrate.prototype._emitChange = function _emitChange (recommendingRestart) {
   var settings = JSON.parse(JSON.stringify(this._cluster_settings));
   var config = JSON.parse(JSON.stringify(this._combined_config));
-  if (this._ready_sent) this.emit('change', settings, config);
+  if (this._ready_sent) this.emit('change', settings, config, recommendingRestart);
 
   if (!this._ready_sent && this._cluster_settings_populated && this._service_config_populated && this._services_populated) {
     this._ready_sent = true;
