@@ -24,7 +24,7 @@ function Magistrate () {
 
   this._combined_config = this._service_config = this._base_config = baseConfig;
   this._cluster_settings = {};
-  this._services;
+  this._services = {};
 
   this._cluster_settings_populated;
   this._service_config_populated;
