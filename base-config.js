@@ -12,6 +12,7 @@ var config = {
   version: pkg.version,
   port: pkgConfig.port,
   services: pkgConfig.services,
+  lose_services: pkgConfig.lose_services,
   environment: 'development',
   consul: false,
   ip_address: internalIp.v4(),
