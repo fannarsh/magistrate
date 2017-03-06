@@ -37,6 +37,7 @@ module.exports = function transformData (prefix, data) {
   }
 
   function parseValue (item) {
+    if (item.Value === null && item.Key.slice(-1) === '/') return {};
     var value;
     try {
       value = JSON.parse(item.Value);
