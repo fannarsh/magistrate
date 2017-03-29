@@ -9,7 +9,7 @@ var cws = require('./consul-watch-store.js');
 var cserv = require('./consul-services.js');
 var prepareTags = require('./prepare-tags.js');
 var fullfilledServices = require('./fullfilled-services.js');
-var fullfilledLoseServices = require('./fullfilled-lose-services.js');
+var fullfilledLooseServices = require('./fullfilled-loose-services.js');
 var hasServicesChanged = require('./has-services-changed.js');
 
 var consulRegister = require('./consul-register.js');
@@ -93,7 +93,7 @@ Magistrate.prototype.config = function config (err, data) {
   this._service_config.tags = prepareTags(this._service_config);
   this._combined_config = xtend(this._service_config, this._services);
   this._combined_config.fullfilled_services = fullfilledServices(this._combined_config);
-  this._combined_config.fullfilled_lose_services = fullfilledLoseServices(this._combined_config);
+  this._combined_config.fullfilled_loose_services = fullfilledLooseServices(this._combined_config);
   this._service_config_populated = true;
   this._emitChange(true);
   return this._combined_config;
@@ -108,7 +108,7 @@ Magistrate.prototype.services = function services (err, data) {
   this._services = data;
   this._combined_config = xtend(this._service_config, this._services);
   this._combined_config.fullfilled_services = fullfilledServices(this._combined_config);
-  this._combined_config.fullfilled_lose_services = fullfilledLoseServices(this._combined_config);
+  this._combined_config.fullfilled_loose_services = fullfilledLooseServices(this._combined_config);
   this._services_populated = this._services_populated || this._combined_config.fullfilled_services;
   this._emitChange(restart);
   return this._combined_config;

@@ -85,6 +85,6 @@ function hasChanged (services) {
 
 function expectedServices (config) {
   var hard = config.services || [];
-  var lose = config.lose_services || [];
-  return hard.concat(lose);
+  var loose = config.loose_services || [];
+  return hard.concat(loose);
 }
