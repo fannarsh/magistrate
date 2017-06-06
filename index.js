@@ -100,10 +100,9 @@ Magistrate.prototype.config = function config (err, data) {
 };
 
 Magistrate.prototype.services = function services (err, data) {
+  if (err) return console.log({ error: err }, 'Error in service discovery');
+
   console.log('[magistrate] Change in services:', data);
-  if (errorHandler(err, function () {
-    this.services(null, []);
-  }.bind(this))) return;
   var restart = hasServicesChanged(this._combined_config, this._services, data);
   this._services = data;
   this._combined_config = xtend(this._service_config, this._services);
@@ -128,14 +127,3 @@ Magistrate.prototype._emitChange = function _emitChange (recommendingRestart) {
     this.emit('ready', settings, config);
   }
 };
-
-var errorHandlingTimer;
-function errorHandler (error, retryFn) {
-  clearTimeout(errorHandlingTimer);
-  if (error) {
-    errorHandlingTimer = setTimeout(retryFn, 2000);
-    console.log({ error: error }, 'Error in service discovery');
-    return true;
-  }
-  return false;
-}
