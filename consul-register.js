@@ -1,6 +1,7 @@
 'use strict';
 
 var consul = require('./consul-client.js')();
+var exitHook = require('exit-hook');
 
 var serviceId;
 
@@ -30,6 +31,14 @@ function register (service, cb) {
   consul.agent.service.register(service, function (err) {
     if (err) console.error({ service: service, error: err }, 'Error while registering service');
     serviceId = service.id;
+    // Make sure that we deregister this service when the process is terminating
+    exitHook(function (next) {
+      console.log('[magistrate] exit-hook un-register service');
+      deregister(function (err, id) {
+        console.log('[magistrate] deregistering service %s', id, (err || ''));
+        next();
+      });
+    });
     cb(err, service);
   });
 }
@@ -83,23 +92,6 @@ function createHttpCheck (config) {
     interval: '10s',
     timeout: '1s'
   };
-}
-
-// Trying out shutdown/deregister procedure
-
-try {
-  process.once('SIGTERM', shutdown);
-} catch (e) {
-  // Probably on Windows
-}
-
-function shutdown () {
-  // One problem is that consul agent could shutdown before we can deregister the service
-  console.log('[magistrate] Shutdown event, lets deregister');
-  consul.agent.service.deregister({ id: serviceId }, function (err) {
-    if (err) console.error({ service_id: serviceId, error: err }, 'Error while deregistering service');
-    console.log('Deregistration complete.');
-  });
 }
 
 function noop () {}

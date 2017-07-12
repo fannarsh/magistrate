@@ -25,6 +25,7 @@
   "dependencies": {
     "consul": "^0.26.0",
     "deep-diff": "^0.3.4",
+    "exit-hook": "github:fannarsh/exit-hook",
     "fastparallel": "^2.3.0",
     "internal-ip": "^1.2.0",
     "xtend": "^4.0.1"
