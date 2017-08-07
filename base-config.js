@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var os = require('os');
 var path = require('path');
 var xtend = require('xtend');
 var internalIp = require('internal-ip');
@@ -16,6 +17,7 @@ var config = {
   environment: 'development',
   consul: false,
   ip_address: internalIp.v4(),
+  container_id: os.hostname() || 'unknown',
   log_level: 'info'
 };
 

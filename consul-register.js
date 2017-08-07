@@ -12,7 +12,7 @@ module.exports.maintenance = maintenance;
 
 function createServiceObject (config) {
   var service = {
-    id: config.name,
+    id: config.name + '-' + config.container_id,
     name: config.name,
     address: config.ip_address,
     port: config.port,
