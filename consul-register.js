@@ -33,9 +33,9 @@ function register (service, cb) {
     serviceId = service.id;
     // Make sure that we deregister this service when the process is terminating
     exitHook(function (next) {
-      console.log('[magistrate] exit-hook un-register service');
+      console.log('[magistrate] exit-hook, Deregister service');
       deregister(function (err, id) {
-        console.log('[magistrate] deregistering service %s', id, (err || ''));
+        console.log('[magistrate] Finished deregistering service %s', id, (err || ''));
         next();
       });
     });
