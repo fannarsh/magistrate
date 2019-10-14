@@ -27,7 +27,7 @@
     "deep-diff": "^1.0.2",
     "exit-hook": "github:fannarsh/exit-hook",
     "fastparallel": "^2.3.0",
-    "internal-ip": "^4.3.0",
+    "internal-ip": "1.2.0",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
