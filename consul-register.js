@@ -73,7 +73,7 @@ function createChecks (config) {
   } else if (config.health_check_type === 'tcp') {
     return [ createTcpCheck(config) ];
   }
-  return undefined;
+  return null;
 }
 
 function createTcpCheck (config) {
