@@ -1,6 +1,6 @@
 {
   "name": "magistrate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Administrates configuration gathered from Consul",
   "main": "index.js",
   "scripts": {
